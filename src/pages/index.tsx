@@ -1,9 +1,6 @@
 import React, { FormEvent, useRef, useState, useEffect } from "react";
 import ReactCompareImage from "react-compare-image";
 import { spawn, Worker } from "threads";
-import dynamic from "next/dynamic"
-
-const DynamicComponent = dynamic(() => import("../components/test"), {ssr: false})
 
 import Modal from "../components/modal";
 
@@ -15,12 +12,27 @@ interface Lqip {
   url: string;
 }
 
+type Base64Function = (
+  filePath: string,
+  fileMime: string,
+  resizeWidth: number
+) => Promise<string>;
 
 export default () => {
   const fileInput = useRef<HTMLInputElement>(null);
   const [lqips, setLqips] = useState<Lqip[]>([]);
   const [resizeWidth, setResizeWidth] = useState<number>(10);
 
+  let base64: Base64Function;
+
+  useEffect(() => {
+    const init = async () => {
+      base64 = await spawn<Base64Function>(
+        new Worker("../workers/base64.worker")
+      );
+    };
+    init();
+  }, []);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -46,7 +58,6 @@ export default () => {
 
   return (
     <>
-      <DynamicComponent />
       <h1>LQIP Converter</h1>
       <form onSubmit={(e: FormEvent<HTMLFormElement>) => handleSubmit(e)}>
         <input ref={fileInput} type="file" multiple />

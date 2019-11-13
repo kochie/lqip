@@ -4,6 +4,7 @@ const ThreadsPlugin = require("threads-plugin");
 
 const config = {
   cssModules: true,
+  target: 'serverless',
   webpack(config) {
     config.plugins.push(new ThreadsPlugin({globalObject: 'self'}))
     return config

@@ -1,0 +1,8 @@
+{
+	"name": "lqip",
+	"builds": [{ "src": "next.config.js", "use": "@now/next" }],
+	"aliases": [
+		"lqip.kochie.io",
+		"lqip.now.sh"
+	]
+}

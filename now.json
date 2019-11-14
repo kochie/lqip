@@ -4,5 +4,6 @@
 	"alias": [
 		"lqip.kochie.io",
 		"lqip.now.sh"
-	]
+	],
+	"public": true
 }

@@ -44,13 +44,14 @@ export default () => {
 
     files.forEach(async file => {
       if (file === null) return;
-      // const lqip = await base64(
-      //   URL.createObjectURL(file),
-      //   file.type,
-      //   resizeWidth
-      // );
-      // const l = { filename: file.name, lqip, url: URL.createObjectURL(file) };
-      // setLqips([...lqips, l]);
+      if (!base64) return
+      const lqip = await base64(
+        URL.createObjectURL(file),
+        file.type,
+        resizeWidth
+      );
+      const l = { filename: file.name, lqip, url: URL.createObjectURL(file) };
+      setLqips([...lqips, l]);
     });
   }
 
